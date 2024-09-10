@@ -7,7 +7,7 @@ name: Build and deploy Python app to Azure Web App - MyNewAppIA
 on:
   push:
     branches:
-      - main
+      - main  # Asegúrate de que tu rama principal sea 'main' (o cámbiala a 'master' si es necesario)
   workflow_dispatch:
 
 jobs:
@@ -20,7 +20,7 @@ jobs:
       - name: Set up Python version
         uses: actions/setup-python@v5
         with:
-          python-version: '3.8'
+          python-version: '3.8'  # Asegúrate de que esta versión de Python coincide con tu configuración en Azure
 
       - name: Create and start virtual environment
         run: |
@@ -28,9 +28,13 @@ jobs:
           source venv/bin/activate
       
       - name: Install dependencies
-        run: pip install -r requirements.txt
-        
+        run: |
+          python -m pip install --upgrade pip
+          pip install --upgrade setuptools wheel
+          pip install -r backend/requirements.txt  # Asegúrate de que esta ruta sea correcta según tu proyecto
+
       # Optional: Add step to run tests here (PyTest, Django test suites, etc.)
+      # Puedes agregar un paso aquí para ejecutar tests, si tienes alguno.
 
       - name: Zip artifact for deployment
         run: zip release.zip ./* -r
@@ -41,7 +45,7 @@ jobs:
           name: python-app
           path: |
             release.zip
-            !venv/
+            !venv/  # Excluir el entorno virtual de los archivos de despliegue
 
   deploy:
     runs-on: ubuntu-latest
@@ -50,7 +54,7 @@ jobs:
       name: 'Production'
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
     permissions:
-      id-token: write #This is required for requesting the JWT
+      id-token: write  # Esto es necesario para solicitar el JWT
 
     steps:
       - name: Download artifact from build job
@@ -61,7 +65,6 @@ jobs:
       - name: Unzip artifact for deployment
         run: unzip release.zip
 
-      
       - name: Login to Azure
         uses: azure/login@v2
         with:
@@ -73,6 +76,5 @@ jobs:
         uses: azure/webapps-deploy@v3
         id: deploy-to-webapp
         with:
-          app-name: 'MyNewAppIA'
-          slot-name: 'Production'
-          
+          app-name: 'MyNewAppIA'  # Asegúrate de que coincide con el nombre de tu App Service en Azure
+          package: .  # Esto asegura que el contenido descomprimido sea el que se despliega
