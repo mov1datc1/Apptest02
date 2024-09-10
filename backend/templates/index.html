@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Simulación de Cotizaciones y Flujo de Caja</title>
+</head>
+<body>
+    <h1>Monitoreo y Predicción de Cotizaciones</h1>
+    
+    <h3>Cotizaciones Actuales</h3>
+    <table id="quotes_table" border="1">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Estado</th>
+                <th>Monto</th>
+                <th>Fecha</th>
+                <th>Razón</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+
+    <h3>Predicción del Flujo de Caja</h3>
+    <canvas id="cashFlowChart" width="400" height="200"></canvas>
+    <button onclick="getCashFlowPrediction()">Predecir Flujo de Caja</button>
+
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.0/socket.io.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        const socket = io();
+
+        // Obtener cotizaciones al cargar la página
+        socket.emit('get_quotes');
+        socket.on('quotes_data', function(data) {
+            const tableBody = document.querySelector('#quotes_table tbody');
+            tableBody.innerHTML = '';
+            data.forEach(quote => {
+                let row = `<tr>
+                            <td>${quote.quote_id}</td>
+                            <td>${quote.status}</td>
+                            <td>${quote.amount}</td>
+                            <td>${quote.date}</td>
+                            <td>${quote.reason}</td>
+                           </tr>`;
+                tableBody.innerHTML += row;
+            });
+        });
+
+        // Predicción del flujo de caja
+        function getCashFlowPrediction() {
+            socket.emit('predict_cash_flow');
+        }
+
+        socket.on('cash_flow_prediction', function(data) {
+            const ctx = document.getElementById('cashFlowChart').getContext('2d');
+            const labels = data.dates;
+            const predictedData = data.predicted_cash_flow;
+            
+            new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: labels,
+                    datasets: [{
+                        label: 'Predicción de Flujo de Caja',
+                        data: predictedData,
+                        borderColor: 'rgba(75, 192, 192, 1)',
+                        fill: false
+                    }]
+                }
+            });
+        });
+    </script>
+</body>
+</html>

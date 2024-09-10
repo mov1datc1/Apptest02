@@ -1,0 +1,129 @@
+@import url('https://fonts.googleapis.com/css2?family=Karla:wght@400;700&family=Poppins:wght@400;700&display=swap');
+
+body {
+  font-family: 'Poppins', 'Karla', sans-serif;
+  background-color: #f5f5f5;
+  color: #333;
+  margin: 0;
+  padding: 0;
+}
+
+.App {
+  text-align: center;
+  padding: 20px;
+}
+
+.App-header {
+  background-color: #007bff;
+  padding: 20px;
+  border-radius: 10px;
+  color: white;
+  margin-bottom: 20px;
+}
+
+.App-logo {
+  height: 100px;
+  margin-bottom: 20px;
+}
+
+h1 {
+  font-size: 24px;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* Texto explicativo para el gráfico */
+.chart-intro {
+  background-color: #333;
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
+.chart-intro-title {
+  font-size: 22px;
+  font-weight: 700;
+}
+
+.chart-intro-description {
+  font-size: 18px;
+  margin: 10px 0;
+}
+
+/* Texto explicativo de la tabla con fuente de 22px */
+.table-explanation {
+  font-size: 22px; /* Aumenta el tamaño de la fuente */
+  color: #555;
+  font-weight: 300;
+  max-width: 80%;
+  margin: 0 auto 20px;
+  text-align: left;
+}
+
+/* Títulos de los gráficos */
+h3 {
+  font-size: 18px;
+  font-weight: bold;
+  margin-top: 20px;
+}
+
+/* Contenedor para los gráficos */
+.chart-container {
+  width: 70%;
+  height: 400px;
+  margin: 20px auto;
+  background-color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+button:focus {
+  outline: none;
+}
+
+/* Contenedor de la tabla */
+.table-container {
+  max-height: 400px;
+  overflow-y: auto;
+  margin: 0 auto;
+  width: 80%;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.quote-table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.quote-table th, .quote-table td {
+  padding: 12px 15px;
+  text-align: left;
+}
+
+.quote-table th {
+  background-color: #007bff;
+  color: white;
+}
+
+.quote-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+/* CTA Button */
+.cta-button {
+  display: inline-block;
+  background-color: #007bff;
+  color: white;
+  padding: 10px 20px;
+  text-decoration: none;
+  border-radius: 30px;
+  margin-top: 20px;
+  font-size: 16px;
+}
+
+.cta-button:hover {
+  background-color: #0056b3;
+}
